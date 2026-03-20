@@ -493,6 +493,9 @@ export async function runShell(): Promise<void> {
         accumulated = '';
         deltaIndex = 0;
         const fallback = await awaitStreamedResponse(session, message);
+        // Grace period: give any late-arriving deltas (sent just before session.idle)
+        // one event-loop tick to be delivered before we decide the response is empty.
+        if (!accumulated) await new Promise<void>(r => setImmediate(r));
         debugLog('agent dispatch:', agentName, 'accumulated length', accumulated.length, 'fallback length', fallback.length);
         if (!accumulated && fallback) accumulated = fallback;
         return accumulated;
@@ -702,6 +705,9 @@ export async function runShell(): Promise<void> {
         coordDeltaIndex = 0;
         debugLog('coordinator: starting awaitStreamedResponse');
         const fallback = await awaitStreamedResponse(activeCoordSession, message);
+        // Grace period: give any late-arriving deltas (sent just before session.idle)
+        // one event-loop tick to be delivered before we decide the response is empty.
+        if (!accumulated) await new Promise<void>(r => setImmediate(r));
         debugLog('coordinator dispatch: accumulated length', accumulated.length, 'fallback length', fallback.length);
         if (!accumulated && fallback) {
           debugLog('coordinator: using sendAndWait fallback content');
