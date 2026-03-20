@@ -1,0 +1,30 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint-sdk
+      glob: "packages/squad-sdk/**/*.ts"
+      run: tsc --noEmit -p packages/squad-sdk/tsconfig.json
+
+    - name: gitleaks
+      run: gitleaks protect --staged --redact
+
+commit-msg:
+  jobs:
+    - name: conventional-commits
+      run: |
+        msg=$(cat {1})
+        pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .{1,100}"
+        if ! echo "$msg" | grep -qE "$pattern"; then
+          echo "Commit message must follow Conventional Commits format."
+          echo "Examples: feat: add login, fix(auth): handle token expiry"
+          exit 1
+        fi
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: lint-full
+      run: npm run lint
+
+    - name: test
+      run: npm test
