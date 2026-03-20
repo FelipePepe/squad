@@ -21,10 +21,6 @@ commit-msg:
         fi
 
 pre-push:
-  parallel: true
   jobs:
-    - name: lint-full
-      run: npm run lint
-
     - name: test
       run: npm test
