@@ -23,4 +23,4 @@ commit-msg:
 pre-push:
   jobs:
     - name: test
-      run: npx vitest run --ignore "test/journey-*.test.ts"
+      run: npx vitest run $(ls test/*.test.ts | grep -v journey | tr '\n' ' ')
