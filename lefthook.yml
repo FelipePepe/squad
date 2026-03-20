@@ -22,5 +22,5 @@ commit-msg:
 
 pre-push:
   jobs:
-    - name: test
-      run: npx vitest run $(ls test/*.test.ts | grep -v journey | tr '\n' ' ')
+    - name: gitleaks
+      run: gitleaks protect --redact
