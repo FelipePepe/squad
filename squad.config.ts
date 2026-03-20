@@ -28,7 +28,7 @@ export default defineSquad({
       'keaton', 'verbal', 'fenster', 'hockney', 'mcmanus', 'kujan',
       'edie', 'kobayashi', 'fortier', 'rabin', 'baer', 'redfoot',
       'strausz', 'saul', 'kovash', 'marquez', 'cheritto', 'breedan',
-      'nate', 'waingro',
+      'nate', 'waingro', 'codd',
     ],
   }),
 
@@ -53,6 +53,7 @@ export default defineSquad({
     defineAgent({ name: 'breedan', role: 'E2E Test Engineer', description: 'node-pty harness, Gherkin features, frame snapshots.', status: 'active' }),
     defineAgent({ name: 'nate', role: 'Accessibility Reviewer', description: 'Keyboard nav, color contrast, error guidance, shortcut discoverability.', status: 'active' }),
     defineAgent({ name: 'waingro', role: 'Product Dogfooder', description: 'Adversarial testing, edge cases, regression scenarios.', status: 'active' }),
+    defineAgent({ name: 'codd', role: 'Database Engineer', description: 'Schema design, migrations, query optimization, data integrity at the persistence layer.', status: 'active' }),
   ],
 
   routing: defineRouting({
@@ -77,6 +78,7 @@ export default defineSquad({
       { pattern: 'e2e-tests', agents: ['@breedan'], description: 'node-pty harness, Gherkin features, frame snapshots' },
       { pattern: 'accessibility', agents: ['@nate'], description: 'Keyboard nav, color contrast, error guidance' },
       { pattern: 'hostile-qa', agents: ['@waingro'], description: 'Adversarial testing, edge cases, regression scenarios' },
+      { pattern: 'database', agents: ['@codd'], description: 'Schema design, migrations, query optimization, indexing, ORM config, data integrity' },
     ],
     defaultAgent: '@keaton',
     fallback: 'coordinator',
